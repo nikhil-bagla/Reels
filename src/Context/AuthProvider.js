@@ -35,7 +35,7 @@ function AuthProvider({children}) {
     },[])
     return (
         <AuthContext.Provider value={value}>
-            {!loading&&children}   {/*checks if loading is false and children are there*/}
+            {!loading&&children}   {/*checks if loading is false and children are there,children is signup here,so signup.js file will be rendered*/}
         </AuthContext.Provider>
     )
 }

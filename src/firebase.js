@@ -14,7 +14,8 @@ firebase.initializeApp({
 export const auth=firebase.auth()
 const firestore=firebase.firestore()
 export const database = {
-    users:firestore.collection('users'),
+    users: firestore.collection('users'),
+    posts: firestore.collection('posts'),
     getCurrentTimeStamp:firebase.firestore.FieldValue.serverTimestamp
 }
 export const storage = firebase.storage();

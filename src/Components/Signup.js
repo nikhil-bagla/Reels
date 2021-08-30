@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { AuthContext } from "../Context/AuthProvider";
 import { storage, database } from "../firebase";
-
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -38,7 +38,8 @@ function Signup() {
     const [loading, setLoading] = useState(false)
     const [file, setFile] = useState(null);
     const [error, setError] = useState('')
-    const { signup } = useContext(AuthContext);
+    const { signup,currentUser } = useContext(AuthContext);
+    const history = useHistory();
     console.log(signup);
 
     const classes = useStyles();
@@ -88,6 +89,7 @@ function Signup() {
                 })
                 setLoading(false)
                 alert(`${name} has signed Up`)
+                history.push('/')   //simply sets url to default after successfull signup
             }
 
         } catch (err) {
@@ -104,6 +106,11 @@ function Signup() {
             setFile(file);
         }
     }
+    useEffect(() => {
+        if (currentUser) {
+            history.push('/')    //cant go to signup route after signup is done
+        }
+    }, [])
     return (
         <div>
             <Box

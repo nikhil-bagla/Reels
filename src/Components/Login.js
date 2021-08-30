@@ -1,4 +1,5 @@
-import React,{useState,useContext} from 'react'
+import React,{useState,useContext,useEffect} from 'react'
+import { useHistory } from 'react-router-dom';
 import { AuthContext } from "../Context/AuthProvider"
 import { storage, database } from "../firebase";
 import Avatar from '@material-ui/core/Avatar';
@@ -54,24 +55,32 @@ export default function Login() {
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
-    const { login } = useContext(AuthContext);
+    const { login ,currentUser} = useContext(AuthContext);
+    const history = useHistory();
+
     const classes = useStyles();
     
     const handleLogin =async (e) => {
         e.preventDefault();
         try {
+            console.log('Logging in user')
             setLoading(true)
-            let res = await login(email, password);
-            let uid = res.user.uid;
-            console.log(uid);
+            await login(email, password);
+            // let uid = res.user.uid;
+            // console.log(uid);
             setLoading(false)
-           
-        } catch (err) {
-            setError(err)
+            history.push('/')  //simply sets the url to default after login
+        } catch{
+            setError("Failed to login")
             setTimeout(() => setError(''), 2000);
             setLoading(false)
         }
     }
+    useEffect(() => {
+        if (currentUser) {
+            history.push('/')    //if logged in then /route DOENOT WORKS
+        }
+    }, [])
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -135,6 +144,7 @@ export default function Login() {
                             </Link>
                         </Grid>
                     </Grid>
+                    {error ? <h1>{error}</h1> : <></>}
                 </form>
             </div>
             <Box mt={8}>

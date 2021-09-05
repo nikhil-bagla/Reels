@@ -97,7 +97,8 @@ function UploadFile(props){
                             disable={loading}
                             variant="contained"
                             component='span'
-                            className={classes.button}
+                            className={classes.buttonu}
+                            style={{ marginLeft:'8vw'}}
                             size='medium'
                             color='secondary'
                             >Upload</Button>

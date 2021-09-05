@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import insta from "./insta.png"
 import AccountCircle from '@material-ui/icons/AccountCircle';
-
+import Avatar from '@material-ui/core/Avatar';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
@@ -68,8 +68,9 @@ export default function Header(props) {
                                 color="inherit"
                                 
                             >
-                                <img src={url} alt="ProfileImg"
-                                    style={ {height:'6vh',width:'100%',borderRadius:'50%'}}/>
+                                {/* <img src={url} alt="ProfileImg"
+                                    style={ {height:'6vh',width:'100%',borderRadius:'50%'}}/> */}
+                                <Avatar src={url}/>
                             </IconButton>
                             <Menu
                                 id="menu-appbar"

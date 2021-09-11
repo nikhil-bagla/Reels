@@ -5,11 +5,15 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import insta from "./insta.png"
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import Avatar from '@material-ui/core/Avatar';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-
+import { AuthContext } from '../Context/AuthProvider';
+import { useHistory } from 'react-router-dom';
+import Profile from './Profile';
+import { Link } from "react-router-dom";
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -30,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
         // backgroundImage: `url(${car})`
 
     },
+    iconbtn: {
+        marginRight:'0.8rem'
+    }
     
 }));
 
@@ -38,8 +45,8 @@ export default function Header(props) {
     let url=(props.userData.profileUrl);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-
-    
+    const { logout } = React.useContext(AuthContext);
+    const history = useHistory();
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -47,6 +54,12 @@ export default function Header(props) {
 
     const handleClose = () => {
         setAnchorEl(null);
+        <Profile/>
+    };
+
+    const handleLogout =async () => {
+        await logout();
+        history.push('/login')
     };
 
     return (
@@ -87,8 +100,13 @@ export default function Header(props) {
                                 open={open}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>My account</MenuItem>
+                                <MenuItem onClick={handleClose}
+                                ><AccountCircleOutlinedIcon className={classes.iconbtn}/><LinkButton
+                                    content="Profile"
+                                    route="/profile"
+                                    
+                                ></LinkButton></MenuItem>
+                                <MenuItem onClick={handleLogout}><ExitToAppOutlinedIcon className={classes.iconbtn}/>Log Out</MenuItem>
                             </Menu>
                         </div>
                     )}
@@ -96,4 +114,15 @@ export default function Header(props) {
             </AppBar>
         </div>
     );
+}
+
+function LinkButton(prop) {
+    return (
+        
+        <Link to={prop.route}
+            style={{ color: 'black' }}>
+            {prop.content}
+            </Link>
+        
+    )
 }

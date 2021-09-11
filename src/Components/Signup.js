@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { Link } from "react-router-dom";
 import { AuthContext } from "../Context/AuthProvider";
 import { storage, database } from "../firebase";
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import Box from "@material-ui/core/Box";
-import { Container, Typography } from '@material-ui/core';
-
-
+import { Container, Typography,Grid,Card,CardMedia,CardContent,CardActions} from '@material-ui/core';
+import insta from "./insta.png"
+import Alert from '@material-ui/lab/Alert';
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '20vh',
@@ -22,13 +19,30 @@ const useStyles = makeStyles((theme) => ({
     input: {
         display: 'none',
     },
-    form: {
-        flexDirection: "column",
+    alignCenter: {
+        justifyContent: "center"
+    },
+    centerDivs: {
+        height: "100vh",
         display: "flex",
-        alignItems:"center",
         justifyContent: "center",
-        flexWrap: "nowrap",
+        width: "90vw",
+        
+        alignItems: "center",
+    },
+    centerElements: {
+        display: "flex",
+        flexDirection: "column",
+    }, fullWidth: {
+        width: "100%"
+    },
+    image: {
+        width: '70%',
+        paddingTop: '20%',
+        marginLeft: '3.5rem',
+        marginTop:'2rem'
     }
+
 }));
 
 function Signup() {
@@ -93,7 +107,7 @@ function Signup() {
             }
 
         } catch (err) {
-            setError(err)
+            setError('Failed to Sign Up')
             setTimeout(() => setError(''), 2000);
             setLoading(false)
         }
@@ -112,25 +126,26 @@ function Signup() {
         }
     }, [])
     return (
-        <div>
-            <Box
-                className={classes.root}
-                
-                
-                
-            >
-                
+        <div className={classes.centerDivs}>
+                <Container>
+                <Grid container className={classes.alignCenter} spacing={2}>
+                    <Grid item sm={4}>
+                        
                 <form onSubmit={handleSignup}
                     className={classes.form}
                     noValidate
                     autoComplete="off"
                     
-                >
+                            >
+                            <Card variant="outlined">
+                                <CardMedia
+                                    image={insta}
+                                    className={classes.image}
+                                />
+                                {error ? <Alert severity="error" style={{ marginBottom: '0.2rem' }}>{error}</Alert> : <></>}
+                                <CardContent className={classes.centerElements}>
                     <Typography
-                        variant="h4"
-                    style={{fontFamily:"cursive"}}>Instagram</Typography>
-                    <Typography
-                    style={{color:'grey',margin:'2rem'}}>Sign up to see photos and videos from your friends.</Typography>
+                    style={{color:'gray',margin:'1rem',fontWeight:'bold',paddingLeft:'1.5rem'}}>Sign up to see photos and videos from your friends.</Typography>
                 <FormControl variant="outlined">
                     {/* <InputLabel htmlFor="component-outlined">UserName</InputLabel> */}
                     <OutlinedInput type="text" id="component-outlined" value={name} onChange={(e) => { setName(e.target.value) }} placeholder="UserName" />
@@ -145,17 +160,35 @@ function Signup() {
                 </FormControl>
                 <FormControl >
                         <OutlinedInput
-                            style={{ maxWidth: "70%", margin: '2rem' }} variant="contained" type="file" accept="image/*" onChange={handleFileSubmit}>Upload</OutlinedInput>
+                            style={{ maxWidth: "70%", margin: '2rem',padding:'0.2rem' }} variant="contained" type="file" accept="image/*" onChange={handleFileSubmit} placeholder="Password" >Upload</OutlinedInput>
                 </FormControl>
+                                    
                 
-                <Button type="submit" disabled={loading} variant="contained" color="primary">
-                    Sign Up
-</Button>
-                
+                                </CardContent>
+                                <CardActions>
+                                <Button type="submit"
+                                    disabled={loading} className={classes.fullWidth} variant="contained" color="primary">
+                                    Sign Up
+                                    </Button>
+                                </CardActions>
+                                
+                            </Card>
+                            <Card variant="outlined"  style={{marginTop:'1rem'}}>
+                                <Typography style={{ textAlign: "center" }}>
+                                    Have an account?
+                                    <LinkButton
+                                        content="Log in"
+                                        route="/login"
+                                    ></LinkButton>
 
-                    </form>
-                
-            </Box>
+                                </Typography>
+                            </Card>
+
+                            </form>
+                       
+                    </Grid>
+                </Grid>
+                </Container>
             {/* <form onSubmit={handleSignup}>
                 <div>
                     <label htmlFor="">UserName</label>
@@ -176,6 +209,15 @@ function Signup() {
                 <button type="submit" disabled={loading}>Sign Up</button>
             </form> */}
         </div>
+    )
+}
+function LinkButton(prop) {
+    return (
+        <Button variant="text" style={{ color: "blue" }}>
+            <Link to={prop.route} >
+                {prop.content}
+            </Link>
+        </Button>
     )
 }
 

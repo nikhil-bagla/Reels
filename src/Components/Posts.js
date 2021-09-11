@@ -109,6 +109,7 @@ function Posts({userData=null}) {
                 let data = { ...doc.data(), postId: doc.id }
                 parr.push(data)
             })
+            // console.log(parr,'test')
             setPosts(parr);
 
         })
@@ -128,7 +129,8 @@ function Posts({userData=null}) {
         <>
             <div className='place'>
             </div>
-            {posts == null ? <CircularProgress className={classes.loader} color="secondary" /> :
+            {
+                posts == null ? <CircularProgress className={classes.loader} color="secondary" /> :
                 <div className='video-container' id='video-container'>
                     {
                         posts.map((post) => (

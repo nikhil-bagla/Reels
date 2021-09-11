@@ -4,7 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
 import {v4 as uuidv4} from 'uuid'
 import LinearProgress from '@material-ui/core/LinearProgress';
-import {storage,database} from "../firebase"
+import { storage, database } from "../firebase"
+import MovieCreationOutlinedIcon from '@material-ui/icons/MovieCreationOutlined';
 const useStyles = makeStyles((theme) => ({
     
 }));
@@ -95,13 +96,13 @@ function UploadFile(props){
                     <label htmlFor='icon-button-file'>
                         <Button
                             disable={loading}
-                            variant="contained"
+                            variant="outlined"
                             component='span'
                             className={classes.buttonu}
-                            style={{ marginLeft:'8vw'}}
+                            style={{ margin:'auto',marginTop:'1rem'}}
                             size='medium'
                             color='secondary'
-                            >Upload</Button>
+                        ><MovieCreationOutlinedIcon style={{marginRight:'0.5rem'}}/>   Upload</Button>
                     </label>
                     {loading ? <LinearProgress color='primary' style={{ marginTop:'6%' }}/>:<></>}
                 </>
